@@ -1,10 +1,15 @@
 from django.contrib import admin
 from django.urls import path
-from main.views import log_in, UserAPIView, GroupAPIView, EventAPIView, RequestAPIView
+from main.views.auth_views import LoginAPIView
+from main.views.event_views import EventAPIView
+from main.views.group_views import GroupAPIView, CurrentUserGroupsAPIView
+from main.views.request_views import RequestAPIView
+from main.views.user_group_relation_views import UserGroupRelationAPIView
+from main.views.user_views import UserAPIView, CurrentGroupUsersAPIView
 
 urlpatterns = [
     path('admin', admin.site.urls),
-    path('login', log_in),
+    path('api/v1/login', LoginAPIView.as_view()),
     path('api/v1/users', UserAPIView.as_view()),
     path('api/v1/users/<str:id>', UserAPIView.as_view()),
     path('api/v1/groups', GroupAPIView.as_view()),
@@ -12,5 +17,9 @@ urlpatterns = [
     path('api/v1/events', EventAPIView.as_view()),
     path('api/v1/events/<str:id>', EventAPIView.as_view()),
     path('api/v1/requests', RequestAPIView.as_view()),
-    path('api/v1/requests/<str:id>', RequestAPIView.as_view())
+    path('api/v1/requests/<str:id>', RequestAPIView.as_view()),
+    path('api/v1/user-group-relations', UserGroupRelationAPIView.as_view()),
+    path('api/v1/user-group-relations/<str:id>', UserGroupRelationAPIView.as_view()),
+    path('api/v1/groups/user/<str:id>', CurrentUserGroupsAPIView.as_view()),
+    path('api/v1/users/group/<str:id>', CurrentGroupUsersAPIView.as_view())
 ]
