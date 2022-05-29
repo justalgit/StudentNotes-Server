@@ -23,6 +23,23 @@ class UserSerializer(serializers.Serializer):
         return instance
 
 
+class UserNameSerializer(serializers.Serializer):
+    id = serializers.UUIDField(read_only=True)
+    name = serializers.CharField()
+    surname = serializers.CharField()
+
+    def create(self, validated_data):
+        return User.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get("name", instance.name)
+        instance.surname = validated_data.get("surname", instance.surname)
+
+        instance.save()
+
+        return instance
+
+
 class GroupSerializer(serializers.Serializer):
     id = serializers.UUIDField(read_only=True)
     title = serializers.CharField()

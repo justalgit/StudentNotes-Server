@@ -38,7 +38,6 @@ class GroupAPIView(APIView):
             user_id = group_creator_id,
             group_id = serializer.data["id"]
         )
-
         return Response({'group': serializer.data})
 
 
@@ -83,7 +82,6 @@ class CurrentUserGroupsAPIView(APIView):
 
         try:
             user = User.objects.get(id=id)
-            print(user.id)
         except:
             return Response({"error": "User with id = {} does not exists".format(id)})
 

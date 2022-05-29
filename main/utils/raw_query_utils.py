@@ -10,6 +10,24 @@ def get_groups_for_user(id):
     )
 
 
+def get_events_for_user(id):
+    return UserGroupRelation.objects.raw(
+        "select e.* from main_usergrouprelation ugr "
+        "join main_group g on ugr.group_id = g.id "
+        "join main_event e on g.id = e.group_id "
+        "where ugr.user_id = \"{}\"".format(id.replace("-", ""))
+    )
+
+
+def get_requests_for_user(id):
+    return UserGroupRelation.objects.raw(
+        "select r.* from main_usergrouprelation ugr "
+        "join main_group g on ugr.group_id = g.id "
+        "join main_request r on g.id = r.group_id "
+        "where ugr.user_id = \"{}\"".format(id.replace("-", ""))
+    )
+
+
 def get_users_for_group(id):
     return UserGroupRelation.objects.raw(
         "select main_user.* from main_usergrouprelation "
