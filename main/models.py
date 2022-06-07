@@ -82,11 +82,6 @@ class Request(models.Model):
         on_delete = models.CASCADE,
         related_name = '%(class)s_group'
     )
-    incoming_user = models.ForeignKey(
-        User,
-        on_delete = models.CASCADE,
-        related_name = '%(class)s_incoming_user'
-    )
 
     def __str__(self):
         return "Request from user {} to group {}".format(self.author, self.group)

@@ -102,7 +102,6 @@ class RequestSerializer(serializers.Serializer):
     request_date = serializers.IntegerField()
     author_id = serializers.UUIDField()
     group_id = serializers.UUIDField()
-    incoming_user_id = serializers.UUIDField()
 
     def create(self, validated_data):
         return Request.objects.create(**validated_data)
@@ -112,7 +111,6 @@ class RequestSerializer(serializers.Serializer):
         instance.request_date = validated_data.get("request_date", instance.request_date)
         instance.author_id = validated_data.get("author_id", instance.author_id)
         instance.group_id = validated_data.get("group_id", instance.group_id)
-        instance.incoming_user_id = validated_data.get("incoming_user_id", instance.incoming_user_id)
 
         instance.save()
 

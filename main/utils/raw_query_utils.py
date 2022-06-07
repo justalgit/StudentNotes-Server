@@ -23,8 +23,8 @@ def get_requests_for_user(id):
     return UserGroupRelation.objects.raw(
         "select r.* from main_usergrouprelation ugr "
         "join main_group g on ugr.group_id = g.id "
-        "join main_request r on g.id = r.group_id "
-        "where ugr.user_id = \"{}\"".format(id.replace("-", ""))
+        "join main_request r on ugr.group_id = r.group_id "
+        "where ugr.user_id = \"{0}\" or r.author_id = \"{0}\"".format(id.replace("-", ""))
     )
 
 

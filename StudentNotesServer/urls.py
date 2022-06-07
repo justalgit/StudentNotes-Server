@@ -2,10 +2,10 @@ from django.contrib import admin
 from django.urls import path
 from main.views.auth_views import LoginAPIView, InitialDataAPIView
 from main.views.event_views import EventAPIView
-from main.views.group_views import GroupAPIView, CurrentUserGroupsAPIView
+from main.views.group_views import GroupAPIView
 from main.views.request_views import RequestAPIView
 from main.views.user_group_relation_views import UserGroupRelationAPIView
-from main.views.user_views import UserAPIView, CurrentGroupUsersAPIView
+from main.views.user_views import UserAPIView
 
 urlpatterns = [
     path('admin', admin.site.urls),
@@ -20,7 +20,5 @@ urlpatterns = [
     path('api/v1/requests', RequestAPIView.as_view()),
     path('api/v1/requests/<str:id>', RequestAPIView.as_view()),
     path('api/v1/user-group-relations', UserGroupRelationAPIView.as_view()),
-    path('api/v1/user-group-relations/<str:id>', UserGroupRelationAPIView.as_view()),
-    path('api/v1/groups/user/<str:id>', CurrentUserGroupsAPIView.as_view()),
-    path('api/v1/users/group/<str:id>', CurrentGroupUsersAPIView.as_view())
+    path('api/v1/user-group-relations/<str:id>', UserGroupRelationAPIView.as_view())
 ]
