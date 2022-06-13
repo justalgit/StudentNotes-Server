@@ -2,8 +2,9 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from main.models import User, UserGroupRelation, Group
+from main.models import User, UserGroupRelation, Group, EventPriority
 from main.serializers import GroupSerializer, EventSerializer, RequestSerializer, UserGroupRelationSerializer, UserNameSerializer
+from main.utils.event_priority_utils import calculate_weighted_priority
 from main.utils.raw_query_utils import get_events_for_user, get_requests_for_user
 
 
@@ -55,6 +56,22 @@ class InitialDataAPIView(APIView):
         user_groups = Group.objects.all()
         user_events = get_events_for_user(requested_user_id)
         user_requests = get_requests_for_user(requested_user_id)
+        for user_event in user_events:
+            try:
+                ep = EventPriority.objects.get(event_id = user_event.id, user_id = requested_user_id)
+                user_event.weighted_priority = calculate_weighted_priority(
+                    ep.user_priority,
+                    ep.times_checked,
+                    user_event.event_date
+                )
+                user_event.user_priority = ep.user_priority
+            except:
+                user_event.weighted_priority = calculate_weighted_priority(
+                    user_event.user_priority,
+                    0,
+                    user_event.event_date
+                )
+            print(user_event.title, user_event.weighted_priority)
 
         return Response(
             status=status.HTTP_200_OK,

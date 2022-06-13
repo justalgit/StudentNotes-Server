@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Group, Event, Request, UserGroupRelation
+from .models import User, Group, Event, Request, UserGroupRelation, EventPriority
 
 
 class UserSerializer(serializers.Serializer):
@@ -74,6 +74,8 @@ class EventSerializer(serializers.Serializer):
     event_date = serializers.IntegerField()
     last_modified_date = serializers.IntegerField()
     is_editable = serializers.BooleanField()
+    user_priority = serializers.IntegerField(allow_null=True)
+    weighted_priority = serializers.IntegerField(allow_null=True)
     group_id = serializers.UUIDField()
     author_id = serializers.UUIDField()
     last_modified_user_id = serializers.UUIDField()
@@ -87,6 +89,8 @@ class EventSerializer(serializers.Serializer):
         instance.event_date = validated_data.get("event_date", instance.event_date)
         instance.last_modified_date = validated_data.get("last_modified_date", instance.last_modified_date)
         instance.is_editable = validated_data.get("is_editable", instance.is_editable)
+        instance.user_priority = validated_data.get("user_priority", instance.user_priority)
+        instance.weighted_priority = validated_data.get("weighted_priority", instance.weighted_priority)
         instance.group_id = validated_data.get("group_id", instance.group_id)
         instance.author_id = validated_data.get("author_id", instance.author_id)
         instance.last_modified_user_id = validated_data.get("last_modified_user_id", instance.last_modified_user_id)

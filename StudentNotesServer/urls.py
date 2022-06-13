@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 from main.views.auth_views import LoginAPIView, InitialDataAPIView
-from main.views.event_views import EventAPIView
+from main.views.event_views import EventAPIView, EventCheckedByUserAPIView, EventPriorityChangedAPIView
 from main.views.group_views import GroupAPIView
 from main.views.request_views import RequestAPIView
 from main.views.user_group_relation_views import UserGroupRelationAPIView
@@ -20,5 +20,7 @@ urlpatterns = [
     path('api/v1/requests', RequestAPIView.as_view()),
     path('api/v1/requests/<str:id>', RequestAPIView.as_view()),
     path('api/v1/user-group-relations', UserGroupRelationAPIView.as_view()),
-    path('api/v1/user-group-relations/<str:id>', UserGroupRelationAPIView.as_view())
+    path('api/v1/user-group-relations/<str:id>', UserGroupRelationAPIView.as_view()),
+    path('api/v1/check-event', EventCheckedByUserAPIView.as_view()),
+    path('api/v1/change-event-priority', EventPriorityChangedAPIView.as_view())
 ]

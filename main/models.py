@@ -47,6 +47,8 @@ class Event(models.Model):
     event_date = models.BigIntegerField('Event date')
     last_modified_date = models.BigIntegerField('Last modified date')
     is_editable = models.BooleanField('Is editable')
+    user_priority = models.PositiveSmallIntegerField('User priority', default = 1)
+    weighted_priority = models.IntegerField('Weighted priority', default = 1)
     author = models.ForeignKey(
         User,
         on_delete = models.CASCADE,
@@ -103,3 +105,29 @@ class UserGroupRelation(models.Model):
 
     def __str__(self):
         return "Relation between user {} and group {}".format(self.user, self.group)
+
+    class Meta:
+        unique_together = ('group', 'user')
+
+
+class EventPriority(models.Model):
+
+    id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
+    user = models.ForeignKey(
+        User,
+        on_delete = models.CASCADE,
+        related_name = '%(class)s_user'
+    )
+    event = models.ForeignKey(
+        Event,
+        on_delete = models.CASCADE,
+        related_name = '%(class)s_event'
+    )
+    user_priority = models.IntegerField(default = 1, null=True)
+    times_checked = models.IntegerField(default = 0, null=True)
+
+    def __str__(self):
+        return "Event {} priority for {}".format(self.event, self.user)
+
+    class Meta:
+        unique_together = ('event', 'user')
